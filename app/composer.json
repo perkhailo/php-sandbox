@@ -1,0 +1,17 @@
+{
+  "name": "php/sandbox",
+  "authors": [
+   {
+     "name": "Andrii Perkhailo",
+     "email": "andrii.perkhailo@gmail.com"
+   }
+  ],
+  "autoload": {
+   "psr-4": {
+     "App\\": "public/"
+   }
+  },
+  "require": {
+   "php": "^8.0"
+  }
+}
