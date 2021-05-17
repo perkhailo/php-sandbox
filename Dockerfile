@@ -5,7 +5,7 @@ COPY ./apache2.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Install OS utils
 RUN apt-get update && apt-get install -yq --no-install-recommends \
-  apt-utils ca-certificates wget curl zip git
+  apt-utils ca-certificates wget curl zip unzip git
 
 # Install NODE
 RUN curl -SLO https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz \
