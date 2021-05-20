@@ -3,7 +3,6 @@ version: '3.8'
 services:
   php:
     build: .
-    image: app
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     ports:
