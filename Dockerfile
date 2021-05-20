@@ -1,4 +1,4 @@
-FROM php:8.0.2-apache
+FROM php:apache
 ENV NODE_VERSION 15.10.0
 
 COPY ./apache2.conf /etc/apache2/sites-enabled/000-default.conf
@@ -21,7 +21,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 # Install php extensions
 RUN apt-get update && apt-get install -y && \
-  docker-php-ext-install -j$(nproc) bcmath pdo_mysql && \
+  docker-php-ext-install -j$(nproc) bcmath ctype pdo_mysql && \
   rm -r /var/cache/*
 
 # Install pecl extensions
