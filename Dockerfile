@@ -2,10 +2,6 @@ FROM php:8-fpm
 
 ENV NODE_VERSION 14.17.0
 
-# Arguments defined in docker-compose.yml
-ARG user
-ARG uid
-
 # Install system dependencies
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   git \
@@ -25,12 +21,9 @@ RUN apt-get update && apt-get install -y && \
   rm -r /var/cache/*
 
 # Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-  chown -R $user:$user /home/$user
+RUN curl -sS https://getcomposer.org/installer | php -- \
+  --install-dir=/usr/bin/ --filename=composer \
+  && rm -f /usr/bin/composer
 
 # Install NODE
 RUN curl -SLO https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz \
@@ -54,5 +47,3 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /var/www
-
-USER $user
