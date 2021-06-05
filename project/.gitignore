@@ -1,5 +1,8 @@
 /node_modules
 /vendor
 
+npm-debug.log
+
+.bash_history
 .phpunit.result.cache
 .env
