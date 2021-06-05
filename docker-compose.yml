@@ -2,11 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    image: app
-    container_name: app-project
+    build: .
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
@@ -17,22 +13,20 @@ services:
 
   db:
     image: mysql:5.7
-    container_name: app-db
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - project
 
   nginx:
     image: nginx:alpine
-    container_name: app-nginx
     restart: unless-stopped
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
       - ${APP_PATH_NGINX_HOST}:${APP_PATH_NGINX_CONTAINER}
@@ -41,9 +35,8 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: app-phpmyadmin
     ports:
-      - 8080:80
+      - "8080:80"
     networks:
       - project
 
