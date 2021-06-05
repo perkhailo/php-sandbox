@@ -25,9 +25,7 @@ RUN apt-get update && apt-get install -y && \
   rm -r /var/cache/*
 
 # Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- \
-  --install-dir=/usr/bin/ --filename=composer \
-  && rm -f /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
@@ -53,8 +51,6 @@ RUN docker-php-ext-install opcache \
 
 # Clear install files
 RUN rm -rf /var/lib/apt/lists/*
-
-ENV PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # Set working directory
 WORKDIR /var/www
