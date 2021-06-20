@@ -2,23 +2,20 @@ FROM php:8-fpm
 
 ENV NODE_VERSION 14.17.0
 
-# Install system dependencies
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-  git \
-  curl \
-  libpng-dev \
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y apt-utils && apt-get install curl
+
+RUN apt-get install -yq --no-install-recommends \
   libonig-dev \
-  libxml2-dev \
-  zip \
-  unzip
+  libxml2-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN apt-get update && apt-get install -y && \
-  docker-php-ext-install -j$(nproc) pdo_mysql mbstring exif pcntl bcmath gd && \
-  rm -r /var/cache/*
+RUN apt-get update && apt-get install -yq \
+  && docker-php-ext-install -j$(nproc) intl bcmath ctype mbstring fileinfo tokenizer xml pdo \
+  && rm -r /var/cache/*
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
