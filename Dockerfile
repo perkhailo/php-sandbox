@@ -4,7 +4,12 @@ ENV NODE_VERSION 14.17.0
 
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install -y apt-utils && apt-get install curl
+RUN apt-get install -yq apt-utils
+
+RUN apt-get install -yq --no-install-recommends \
+  curl \
+  zip \
+  unzip
 
 RUN apt-get install -yq --no-install-recommends \
   libonig-dev \
@@ -18,9 +23,8 @@ RUN apt-get update && apt-get install -yq \
   && rm -r /var/cache/*
 
 # Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- \
-  --install-dir=/usr/bin/ --filename=composer \
-  && rm -f /usr/bin/composer
+RUN curl --silent --show-error https://getcomposer.org/installer | \
+  php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install NODE
 RUN curl -SLO https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz \
